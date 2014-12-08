@@ -15,7 +15,7 @@ This project tries to make this much easier, while at the same time stay very fl
 ## Install
 
 ```sh
-npm install RLayout --save
+npm install r-layout --save
 ```
 
 ## How it works
@@ -24,7 +24,7 @@ Check out the [examples](examples)!
 
 Require the needed modules (only pick the ones you need):
 ```JS
-var {Layout, resizeMixin, Spacer, Center, CenterHorizontal, CenterVertical} = require('RLayout');
+var {Layout, resizeMixin, Spacer, Center, CenterHorizontal, CenterVertical} = require('r-layout');
 ```
 The base component is the `<Layout/>` component.
 
