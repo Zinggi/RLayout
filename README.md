@@ -2,54 +2,148 @@
 
 A react component for simple layout. Screw CSS!
 
-### Motivation
+## Motivation
 
 Creating nice layouts in CSS has always been a pain for me.
-How many times did you desperately google how to center a div? How to align divs horizontally? How to mix fixed sizes in pixels with dynamic sized divs?
+How many times have I desperately googled how to center a div? How to align divs horizontally? How to mix fixed sizes in pixels with dynamic sized divs?  
+This project tries to make this much easier, while at the same time stay very flexible.
 
-### How it works
+## Examples
 
-```jsx
-var React = require('react/addons'),
-    {Layout, resizeMixin, Center, CenterHorizontal, CenterVertical, Spacer} = require('RLayout'),
-    mountPoint = document.querySelector('body');
+[Demo](nonexistantyet) / [Src](examples)
 
-var App = React.createClass({
-    mixins: [resizeMixin],
-    render() {
-        var textCenter = {
-            textAlign: "center"
-        };
-        return (
-        	{/* The root instance needs a fixes height and width */}
-            <Layout calculatedWidth={window.innerWidth} calculatedHeight={window.innerHeight}>
-                <CenterVertical contentSize="weight 2">
-                    This is vertically centered!
-                </CenterVertical>
-                <CenterHorizontal contentSize="weight 1">
-                    <img src="https://www.google.com/images/srpr/logo11w.png"/>
-                </CenterHorizontal>
-                <Center contentWidth="0.25 ofParent" contentHeight="0.25 ofParent">
-                    This is totally centered! check this out!
-                </Center>
-            </Layout>
-        );
-    }
-});
+## Install
 
+```sh
+npm install RLayout --save
+```
 
-React.render(<App />, mountPoint);
+## How it works
+
+Check out the [examples](examples)!
+
+Require the needed modules (only pick the ones you need):
+```JS
+var {Layout, resizeMixin, Spacer, Center, CenterHorizontal, CenterVertical} = require('RLayout');
+```
+The base component is the `<Layout/>` component.
+
+Simple helper components are available, such as:
+`<Spacer/>, <Center/>, <CenterHorizontal/> and <CenterVertical/>`
+
+There is a `resizeMixin` available which automatically updates the layout on page resize.
+Use it only on the root element.
+
+### Layout
+
+**Example:**
+
+```Html
+<Layout size="0.1 ofParent">
+    Top bar
+</Layout>
+<Layout orientation="horizontal">
+    <Layout size="weight 1">
+        Side bar
+    </Layout>
+    <Layout size="weight 5">
+        Content
+    </Layout>
+</Layout>
+<Layout size="50px">
+    Footer
+</Layout>
     
 ```
 
----
-### Install
+**Attributes:**
+```JSON
+size: Determines the size of this Layout. Available values:
+    "42px" : Size in pixel
+    "0.42 ofParent": 42% of the parent size
+    "weight 4.2": A Layout with a size in weight will fill the remaining space,
+                  divided based on the weight value. E.g. two Layouts with
+                  "weight 1" / "weight 3" will take 0.25 / 0.75 of the remaining space.
+    Default: "weight 1"
 
-```sh
-npm install RLayout
+orientation: Determines how the children are laid out.
+    Either "vertical" or "horizontal".
+    Default: "vertical"
+ 
+
+calculatedWidth: Only the root Layout must specify this value.
+    For the top element use: window.innerWidth
+    Everywhere else just pass along the parent value: this.props.calculatedWidth
+
+calculatedHeight: Same as above, replace Width with Height
+
+
+dontRender: Indicate that this Layout shouldn't render anything. Used for spacers.
+
+
+break: Opens the debugger when this Layout is rendered
+
+debug: Displays weird random background colors
+
+
+These are used internally: calculatedLeft, calculatedTop, children
 ```
 
----
+### Spacer
+
+Creates an empty space, same as:
+````Html
+<Layout dontRender />
+```
+
+### Center
+
+Centers it's children.
+
+**attributes:**
+````JSON
+contentHeight: The height of the content. "Weight" will behave as if there were two Spacers around.
+    Default: "weight 1"
+contentWidth: Same as above
+```
+
+````Html
+<Center>
+    I'm 1/3 high and 1/3 wide!
+</Center>
+```
+
+### CenterVertical
+
+Centers it's children vertically
+
+**attributes:**
+````JSON
+contentSize: The size of the content. "Weight" will behave as if there were two Spacers around.
+    Default: "weight 1"
+```
+
+````Html
+<CenterVertical>
+    I'm 1/3 high!
+</CenterVertical>
+```
+
+### CenterHorizontal
+
+Centers it's children horizontally
+
+**attributes:**
+````JSON
+contentSize: The size of the content. "Weight" will behave as if there were two Spacers around.
+    Default: "weight 1"
+```
+
+````Html
+<CenterHorizontal>
+    I'm 1/3 wide!
+</CenterHorizontal>
+```
 
 
 ---
