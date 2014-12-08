@@ -11,7 +11,6 @@ var Simple = React.createClass({
         var outline = {
             outline: "1px solid #000"
         };
-        console.log("hello");
         return (
             /* The root instance needs a fixes height and width */
             <Layout calculatedHeight={this.props.calculatedHeight} calculatedWidth={this.props.calculatedWidth}>
