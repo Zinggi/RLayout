@@ -1,30 +1,3 @@
-/*
- * The base component
- *
- * Attributes:
- *    size: Determines the size of this Layout. Available values:
- *        "42px" : Size in pixel
- *        "0.42 ofParent": 42% of the parent size
- *        "weight 4.2": A Layout with a size in weight will fill the remaining space,
- *                      divided based on the weight value. E.g. two Layouts with
- *                      "weight 1" / "weight 3" will take 0.25 / 0.75 of the remaining space.
- *        Default: "weight 1"
- *    orientation: Determines how the children are laid out.
- *                 Either "vertical" or "horizontal". Default: "vertical"
- *     
- *    calculatedWidth: Only the root Layout must specify this value.
- *                     For the top element use: window.innerWidth
- *                     Everywhere else just pass along the parent value: this.props.calculatedWidth
- *    calculatedHeight: Same as above, replace Width with Height
- *    
- *    dontRender: Indicate that this Layout shouldn't render anything. Used for spacers.
- *    
- *    break: Opens the debugger when this Layout is rendered
- *    debug: Displays weird random background colors
- *
- *    These are used internally: calculatedLeft, calculatedTop, children
- */
-
 'use strict';
 
 var React = require('react/addons');

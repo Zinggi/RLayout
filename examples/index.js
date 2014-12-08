@@ -257,29 +257,27 @@
 /* 4 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/** @jsx React.DOM */
-
 	'use strict';
 
 	var resizeMixin = {
-		resize:function() {
-			this.forceUpdate();
-		},
-		componentDidMount:function() {
+	    resize:function() {
+	        this.forceUpdate();
+	    },
+	    componentDidMount:function() {
 	        window.addEventListener('resize', this.resize);
 	    },
 	    componentWillUnmount:function() {
-	    	window.removeEventListener('resize', this.resize);
-		}
+	        window.removeEventListener('resize', this.resize);
+	    }
 	};
 
 	module.exports = {
-		Layout: __webpack_require__(6),
-		resizeMixin: resizeMixin,
-		Center: __webpack_require__(7),
-		CenterHorizontal: __webpack_require__(8),
-		CenterVertical: __webpack_require__(9),
-		Spacer: __webpack_require__(10),
+	    Layout: __webpack_require__(6),
+	    resizeMixin: resizeMixin,
+	    Center: __webpack_require__(7),
+	    CenterHorizontal: __webpack_require__(8),
+	    CenterVertical: __webpack_require__(9),
+	    Spacer: __webpack_require__(10),
 	};
 
 /***/ },
@@ -292,33 +290,6 @@
 /***/ },
 /* 6 */
 /***/ function(module, exports, __webpack_require__) {
-
-	/*
-	 * The base component
-	 *
-	 * Attributes:
-	 *    size: Determines the size of this Layout. Available values:
-	 *        "42px" : Size in pixel
-	 *        "0.42 ofParent": 42% of the parent size
-	 *        "weight 4.2": A Layout with a size in weight will fill the remaining space,
-	 *                      divided based on the weight value. E.g. two Layouts with
-	 *                      "weight 1" / "weight 3" will take 0.25 / 0.75 of the remaining space.
-	 *        Default: "weight 1"
-	 *    orientation: Determines how the children are laid out.
-	 *                 Either "vertical" or "horizontal". Default: "vertical"
-	 *     
-	 *    calculatedWidth: Only the root Layout must specify this value.
-	 *                     For the top element use: window.innerWidth
-	 *                     Everywhere else just pass along the parent value: this.props.calculatedWidth
-	 *    calculatedHeight: Same as above, replace Width with Height
-	 *    
-	 *    dontRender: Indicate that this Layout shouldn't render anything. Used for spacers.
-	 *    
-	 *    break: Opens the debugger when this Layout is rendered
-	 *    debug: Displays weird random background colors
-	 *
-	 *    These are used internally: calculatedLeft, calculatedTop, children
-	 */
 
 	'use strict';
 
@@ -482,10 +453,6 @@
 /* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/**
-	 * @jsx React.DOM
-	 */
-
 	'use strict';
 
 	var React = __webpack_require__(5);
@@ -493,21 +460,21 @@
 	var CenterVertical = __webpack_require__(9);
 
 	var Center = React.createClass({displayName: 'Center',
-		getDefaultProps:function() {
-			return {
-				contentWidth: "weight 1",
-				contentHeight: "weight 1"
-			};
-		},
-		render:function() {
-			return (
-				React.createElement(CenterVertical, React.__spread({},  this.props, {contentSize: this.props.contentHeight}), 
-					React.createElement(CenterHorizontal, {contentSize: this.props.contentWidth}, 
-						this.props.children
-					)
-				)
-			);
-		}
+	    getDefaultProps:function() {
+	        return {
+	            contentWidth: "weight 1",
+	            contentHeight: "weight 1"
+	        };
+	    },
+	    render:function() {
+	        return (
+	            React.createElement(CenterVertical, React.__spread({},  this.props, {contentSize: this.props.contentHeight}), 
+	                React.createElement(CenterHorizontal, {contentSize: this.props.contentWidth}, 
+	                    this.props.children
+	                )
+	            )
+	        );
+	    }
 	});
 
 	module.exports = Center;
@@ -516,10 +483,6 @@
 /* 8 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/**
-	 * @jsx React.DOM
-	 */
-
 	'use strict';
 
 	var React = __webpack_require__(5);
@@ -527,22 +490,22 @@
 	var Spacer = __webpack_require__(10);
 
 	var CenterHorizontal = React.createClass({displayName: 'CenterHorizontal',
-		getDefaultProps:function() {
-			return {
-				contentSize: "weight 1"
-			};
-		},
-		render:function() {
-			return (
-				React.createElement(Layout, React.__spread({},  this.props, {orientation: "horizontal"}), 
-					React.createElement(Spacer, null), 
-					React.createElement(Layout, {size: this.props.contentSize}, 
-						this.props.children
-					), 
-					React.createElement(Spacer, null)
-				)
-			);
-		}
+	    getDefaultProps:function() {
+	        return {
+	            contentSize: "weight 1"
+	        };
+	    },
+	    render:function() {
+	        return (
+	            React.createElement(Layout, React.__spread({},  this.props, {orientation: "horizontal"}), 
+	                React.createElement(Spacer, null), 
+	                React.createElement(Layout, {size: this.props.contentSize}, 
+	                    this.props.children
+	                ), 
+	                React.createElement(Spacer, null)
+	            )
+	        );
+	    }
 	});
 
 	module.exports = CenterHorizontal;
@@ -551,10 +514,6 @@
 /* 9 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/**
-	 * @jsx React.DOM
-	 */
-
 	'use strict';
 
 	var React = __webpack_require__(5);
@@ -562,22 +521,22 @@
 	var Spacer = __webpack_require__(10);
 
 	var CenterVertical = React.createClass({displayName: 'CenterVertical',
-		getDefaultProps:function() {
-			return {
-				contentSize: "weight 1"
-			};
-		},
-		render:function() {
-			return (
-				React.createElement(Layout, React.__spread({},  this.props, {orientation: "vertical"}), 
-					React.createElement(Spacer, null), 
-					React.createElement(Layout, {size: this.props.contentSize}, 
-						this.props.children
-					), 
-					React.createElement(Spacer, null)
-				)
-			);
-		}
+	    getDefaultProps:function() {
+	        return {
+	            contentSize: "weight 1"
+	        };
+	    },
+	    render:function() {
+	        return (
+	            React.createElement(Layout, React.__spread({},  this.props, {orientation: "vertical"}), 
+	                React.createElement(Spacer, null), 
+	                React.createElement(Layout, {size: this.props.contentSize}, 
+	                    this.props.children
+	                ), 
+	                React.createElement(Spacer, null)
+	            )
+	        );
+	    }
 	});
 
 	module.exports = CenterVertical;
@@ -586,25 +545,21 @@
 /* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/**
-	 * @jsx React.DOM
-	 */
-
 	'use strict';
 
 	var React = __webpack_require__(5);
 	var Layout = __webpack_require__(6);
 
 	var Spacer = React.createClass({displayName: 'Spacer',
-		getDefaultProps:function() {
-			return { size: "weight 1" };
-		},
-		render:function() {
-			var $__0=   this.props,children=$__0.children,newProps=(function(source, exclusion) {var rest = {};var hasOwn = Object.prototype.hasOwnProperty;if (source == null) {throw new TypeError();}for (var key in source) {if (hasOwn.call(source, key) && !hasOwn.call(exclusion, key)) {rest[key] = source[key];}}return rest;})($__0,{children:1});
-			return (
-				React.createElement(Layout, React.__spread({},  newProps, {dontRender: true}))
-			);
-		}
+	    getDefaultProps:function() {
+	        return { size: "weight 1" };
+	    },
+	    render:function() {
+	        var $__0=   this.props,children=$__0.children,newProps=(function(source, exclusion) {var rest = {};var hasOwn = Object.prototype.hasOwnProperty;if (source == null) {throw new TypeError();}for (var key in source) {if (hasOwn.call(source, key) && !hasOwn.call(exclusion, key)) {rest[key] = source[key];}}return rest;})($__0,{children:1});
+	        return (
+	            React.createElement(Layout, React.__spread({},  newProps, {dontRender: true}))
+	        );
+	    }
 	});
 
 	module.exports = Spacer;
@@ -613,22 +568,16 @@
 /* 11 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/**
-	 * @jsx React.DOM
-	 */
-
 	'use strict';
 
-	var React = __webpack_require__(14);
-
 	module.exports = {
-		toArray: function(children) {
-			var childs = children;
-			if (!Array.isArray(children)) {
-				childs = [children];
-			}
-			return childs;
-		}
+	    toArray: function(children) {
+	        var childs = children;
+	        if (!Array.isArray(children)) {
+	            childs = [children];
+	        }
+	        return childs;
+	    }
 	};
 
 /***/ },
@@ -638,28 +587,28 @@
 	// object.assign polyfill from
 	// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign
 	if (!Object.assign) {
-		Object.defineProperty(Object, "assign", {
-			enumerable: false,
-			configurable: true,
-			writable: true,
-			value: function(target, firstSource) {
-				if (target === undefined || target === null) {
-					throw new TypeError("Cannot convert first argument to object");
-				}
-				var to = Object(target);
-				for (var i = 1; i < arguments.length; i++) {
-					var nextSource = arguments[i];
-					if (nextSource === undefined || nextSource === null) { continue; }
-					var keysArray = Object.keys(Object(nextSource));
-					for (var nextIndex = 0, len = keysArray.length; nextIndex < len; nextIndex++) {
-						var nextKey = keysArray[nextIndex];
-						var desc = Object.getOwnPropertyDescriptor(nextSource, nextKey);
-						if (desc !== undefined && desc.enumerable) { to[nextKey] = nextSource[nextKey]; }
-					}
-				}
-				return to;
-			}
-		});
+	    Object.defineProperty(Object, "assign", {
+	        enumerable: false,
+	        configurable: true,
+	        writable: true,
+	        value: function(target, firstSource) {
+	            if (target === undefined || target === null) {
+	                throw new TypeError("Cannot convert first argument to object");
+	            }
+	            var to = Object(target);
+	            for (var i = 1; i < arguments.length; i++) {
+	                var nextSource = arguments[i];
+	                if (nextSource === undefined || nextSource === null) { continue; }
+	                var keysArray = Object.keys(Object(nextSource));
+	                for (var nextIndex = 0, len = keysArray.length; nextIndex < len; nextIndex++) {
+	                    var nextKey = keysArray[nextIndex];
+	                    var desc = Object.getOwnPropertyDescriptor(nextSource, nextKey);
+	                    if (desc !== undefined && desc.enumerable) { to[nextKey] = nextSource[nextKey]; }
+	                }
+	            }
+	            return to;
+	        }
+	    });
 	}
 
 	module.exports = {};
@@ -722,13 +671,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(26)))
 
 /***/ },
-/* 14 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = __webpack_require__(16);
-
-
-/***/ },
+/* 14 */,
 /* 15 */
 /***/ function(module, exports, __webpack_require__) {
 
