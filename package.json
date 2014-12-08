@@ -1,0 +1,35 @@
+{
+  "name": "RLayout",
+  "author": "Florian Zinggeler",
+  "version": "0.0.1",
+  "description": "Layout made simple. Screw CSS!",
+  "scripts": {},
+  "main": "./src/index.jsx",
+  "keywords": [
+    "react",
+    "react-component",
+    "react layout",
+    "layout",
+    "positioning",
+    "simple"
+  ],
+  "bugs": "https://github.com/Zinggi/RLayout/issues/",
+  "homepage": "https://github.com/Zinggi/RLayout",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Zinggi/RLayout.git"
+  },
+  "dependencies": {
+    "react": "^0.12.1"
+  },
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-cli": "^0.1.13",
+    "grunt-contrib-watch": "^0.6.1",
+    "grunt-react": "^0.10.0",
+    "grunt-webpack": "^1.0.8",
+    "jsx-loader": "^0.12.2",
+    "webpack": "^1.4.13",
+    "webpack-dev-server": "^1.6.6"
+  }
+}
