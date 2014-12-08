@@ -1,9 +1,8 @@
 {
-  "name": "RLayout",
-  "author": "Florian Zinggeler",
+  "name": "r-layout",
   "version": "0.1.0",
+  "author": "Florian Zinggeler",
   "description": "Layout made simple. Screw CSS!",
-  "scripts": {},
   "main": "./src/index.jsx",
   "keywords": [
     "react",
@@ -17,7 +16,7 @@
   "homepage": "https://github.com/Zinggi/RLayout",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Zinggi/RLayout.git"
+    "url": "https://github.com/Zinggi/RLayout"
   },
   "dependencies": {
     "react": "^0.12.1"
@@ -31,5 +30,6 @@
     "jsx-loader": "^0.12.2",
     "webpack": "^1.4.13",
     "webpack-dev-server": "^1.6.6"
-  }
+  },
+  "license": "MIT"
 }
