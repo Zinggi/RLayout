@@ -145,6 +145,11 @@ contentSize: The size of the content. "Weight" will behave as if there were two 
 </CenterHorizontal>
 ```
 
+---
+## Planned
+
+Add "matchChildren" as a valid size attribute.
+
 
 ---
 ## License
