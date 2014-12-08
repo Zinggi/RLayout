@@ -1,7 +1,3 @@
-/**
- * @jsx React.DOM
- */
-
 'use strict';
 
 var React = require('react/addons');
@@ -84,7 +80,7 @@ var Layout = React.createClass({
 		var totalSizePx = 0,
 			totalWeigth = 0;
 		children.forEach((c) => {
-			if (React.isValidComponent(c)) {
+			if (React.isValidElement(c)) {
 				var size = c.props.size;
 				totalSizePx += getPixelSize(size);
 				totalSizePx += getOfParentSize(size);
@@ -104,7 +100,7 @@ var Layout = React.createClass({
 			return 0;
 		};
 		var finalSizes = children.map(c => {
-			if (React.isValidComponent(c)) {
+			if (React.isValidElement(c)) {
 				var size = c.props.size;
 				return oneOf([getPixelSize, getOfParentSize, s => getWeigth(s)*unitSize], size);
 			}
@@ -116,7 +112,7 @@ var Layout = React.createClass({
 			var size = finalSizes[i];
 			var childW = (isVertical) ? width : size;
 			var childH = (isVertical) ? size : height;
-			if (React.isValidComponent(c)) {
+			if (React.isValidElement(c)) {
 				var ret = React.addons.cloneWithProps(c, {
 					calculatedWidth: childW,
 					calculatedHeight: childH,
