@@ -1,7 +1,7 @@
 {
   "name": "RLayout",
   "author": "Florian Zinggeler",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Layout made simple. Screw CSS!",
   "scripts": {},
   "main": "./src/index.jsx",

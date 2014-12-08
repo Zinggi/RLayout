@@ -3,7 +3,7 @@ var path = require('path');
 module.exports = {
   dev: {
     entry: {
-      index: './examples/LayoutTestApp.jsx',
+      index: './examples/ExampleBrowser.jsx',
     },
     output: {
       path: path.join(__dirname,'../examples'),
@@ -17,7 +17,7 @@ module.exports = {
     },
     module: {
       loaders: [
-        { jsx: /.*\.js/, loader: 'jsx-loader?harmony?insertPragma=React.DOM' } // loaders can take parameters as a querystring
+        { jsx: /.*\.js/, loader: 'jsx-loader?harmony' } // loaders can take parameters as a querystring
       ]
     },
     resolve: {
