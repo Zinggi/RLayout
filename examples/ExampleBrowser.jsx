@@ -71,7 +71,7 @@ var App = React.createClass({
         }[this.state.current];
 
         if (this.state.current === "root") {
-            show = <Root switchView={this.switchView} showDebug/>;
+            show = <Root switchView={this.switchView} showDebug={false}/>;
         } else {
             show = <ShowcaseContainer switchView={this.switchView} show={show} />;
         }
