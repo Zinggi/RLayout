@@ -106,6 +106,9 @@ Centers it's children.
 contentHeight: The height of the content. "Weight" will behave as if there were two Spacers around.
     Default: "weight 1"
 contentWidth: Same as above
+verticalSpacer: The size of the spacers left and right.
+    Default: "weight 1"
+horizontalSpacer: Same as above
 ```
 
 ````Html
@@ -122,6 +125,8 @@ Centers it's children vertically
 ````JSON
 contentSize: The size of the content. "Weight" will behave as if there were two Spacers around.
     Default: "weight 1"
+spacerSize: The size of the spacers around.
+    Default: "weight 1"
 ```
 
 ````Html
@@ -137,6 +142,8 @@ Centers it's children horizontally
 **attributes:**
 ````JSON
 contentSize: The size of the content. "Weight" will behave as if there were two Spacers around.
+    Default: "weight 1"
+spacerSize: The size of the spacers around.
     Default: "weight 1"
 ```
 

@@ -5,6 +5,7 @@ var React = require('react/addons'),
     LongChild = require('./LongChild'),
     BasicLayoutTest = require('./BasicLayoutTest'),
     RefCopyTest = require('./RefCopyTest'),
+    CenterSpacerSize = require('./CenterSpacerSizeTest'),
     {Layout, resizeMixin, Spacer} = require('../src/index'),
     mountPoint = document.querySelector('body');
 
@@ -29,6 +30,7 @@ var Root = React.createClass({
         if (this.props.showDebug) {
             debugTestViews = <Layout>
                 <button onClick={() => this.props.switchView("refCopyTest")}>refCopyTest</button><br/>
+                <button onClick={() => this.props.switchView("centerSpacerSize")}>centerSpacerSize</button><br/>
             </Layout>;
         }
         return (
@@ -68,10 +70,11 @@ var App = React.createClass({
             longChild: <LongChild />,
             basicTest: <BasicLayoutTest />,
             refCopyTest: <RefCopyTest />,
+            centerSpacerSize: <CenterSpacerSize />,
         }[this.state.current];
 
         if (this.state.current === "root") {
-            show = <Root switchView={this.switchView} showDebug={false}/>;
+            show = <Root switchView={this.switchView} showDebug={window.__debugLayout}/>;
         } else {
             show = <ShowcaseContainer switchView={this.switchView} show={show} />;
         }
@@ -83,5 +86,7 @@ var App = React.createClass({
         );
     }
 });
+
+window.__debugLayout = false;
 
 React.render(<App />, mountPoint);
