@@ -113,16 +113,26 @@ var Layout = React.createClass({
             var childW = (isVertical) ? width : size;
             var childH = (isVertical) ? size : height;
             if (React.isValidElement(c)) {
-                var ret = React.addons.cloneWithProps(c, {
+                var newProps = {
                     calculatedWidth: childW,
                     calculatedHeight: childH,
                     calculatedTop: (isVertical) ? currentPosition : 0,
                     calculatedLeft: (isVertical) ? 0 : currentPosition,
-                    debug: this.props.debug,
-                    key: i
-                });
+                    key: c.props.key || i,
+                };
                 currentPosition += size;
-                return ret;
+                var debug = c.props.debug || this.props.debug,
+                    ref = c.ref;
+                if (debug) {
+                    newProps.debug = debug;
+                } if (ref) {
+                    // TODO: Figure out how to preserve ref.
+                    // Waiting for this might be the only solution:
+                    // https://github.com/facebook/react/issues/1373
+                    // For the meanwhile, return the original and hope that nobody passes a ref to a Layout tag...
+                    return c;
+                }
+                return React.addons.cloneWithProps(c, newProps);
             }
             return c;
         });

@@ -9,7 +9,7 @@ var BasicLayoutTest = React.createClass({
             outline: "1px solid #000"
         };
         return (
-            <Layout orientation="vertical" calculatedHeight={this.props.calculatedHeight} calculatedWidth={this.props.calculatedWidth}>
+            <Layout {...this.props} orientation="vertical">
                 <Layout orientation="horizontal" size="weight 1">
                     <Layout size="weight 1" style={outline}>
                         I fill the rest of the page

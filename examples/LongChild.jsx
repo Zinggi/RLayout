@@ -9,7 +9,7 @@ var LongChild = React.createClass({
             outline: "1px solid #000"
         };
         return (
-            <Layout orientation="vertical" calculatedHeight={this.props.calculatedHeight} calculatedWidth={this.props.calculatedWidth}>
+            <Layout {...this.props} orientation="vertical">
                 <Layout size="300px" style={outline}>
                     I'm 300px.
                 </Layout>

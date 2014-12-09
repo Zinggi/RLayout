@@ -12,8 +12,7 @@ var Simple = React.createClass({
             outline: "1px solid #000"
         };
         return (
-            /* The root instance needs a fixes height and width */
-            <Layout calculatedHeight={this.props.calculatedHeight} calculatedWidth={this.props.calculatedWidth}>
+            <Layout {...this.props}>
                 <CenterVertical contentSize="weight 2" style={style("AliceBlue")}>
                     <Layout style={outline}>This is vertically centered!</Layout>
                 </CenterVertical>

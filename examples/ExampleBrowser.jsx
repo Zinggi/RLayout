@@ -4,13 +4,14 @@ var React = require('react/addons'),
     Simple = require('./Simple'),
     LongChild = require('./LongChild'),
     BasicLayoutTest = require('./BasicLayoutTest'),
+    RefCopyTest = require('./RefCopyTest'),
     {Layout, resizeMixin, Spacer} = require('../src/index'),
     mountPoint = document.querySelector('body');
 
 var ShowcaseContainer = React.createClass({
     render() {
         return (
-            <Layout calculatedHeight={this.props.calculatedHeight} calculatedWidth={this.props.calculatedWidth}>
+            <Layout {...this.props}>
                 <Layout size="50px">
                     <button onClick={() => this.props.switchView("root")}>Back</button>
                 </Layout>
@@ -24,12 +25,18 @@ var ShowcaseContainer = React.createClass({
 
 var Root = React.createClass({
     render() {
+        var debugTestViews;
+        if (this.props.showDebug) {
+            debugTestViews = <Layout>
+                <button onClick={() => this.props.switchView("refCopyTest")}>refCopyTest</button><br/>
+            </Layout>;
+        }
         return (
-            <Layout calculatedHeight={this.props.calculatedHeight} calculatedWidth={this.props.calculatedWidth}>
+            <Layout {...this.props}>
                 <Layout size="100px">
                     <h1>Choose example:</h1>
                 </Layout>
-                <Layout size="50px">
+                <Layout>
                     <button onClick={() => this.props.switchView("simple")}>Simple layout</button>
                     Using composed layout elements<br/>
                     <button onClick={() => this.props.switchView("basicTest")}>Basic test layout</button>
@@ -37,7 +44,7 @@ var Root = React.createClass({
                     <button onClick={() => this.props.switchView("longChild")}>Long child</button>
                     Example with a child thats longer than the parent<br/>
                 </Layout>
-                <Spacer />
+                {debugTestViews}
             </Layout>
         );
     }
@@ -60,10 +67,11 @@ var App = React.createClass({
             simple: <Simple />,
             longChild: <LongChild />,
             basicTest: <BasicLayoutTest />,
+            refCopyTest: <RefCopyTest />,
         }[this.state.current];
 
         if (this.state.current === "root") {
-            show = <Root switchView={this.switchView}/>;
+            show = <Root switchView={this.switchView} showDebug/>;
         } else {
             show = <ShowcaseContainer switchView={this.switchView} show={show} />;
         }
