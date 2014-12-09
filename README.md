@@ -109,6 +109,8 @@ contentWidth: Same as above
 verticalSpacer: The size of the spacers left and right.
     Default: "weight 1"
 horizontalSpacer: Same as above
+containerProps: properties you want to pass down to the container object that will surround the children.
+    A use might be styling the container with: "containerProps={{style: {color: "red"}}}"
 ```
 
 ````Html
@@ -127,6 +129,8 @@ contentSize: The size of the content. "Weight" will behave as if there were two 
     Default: "weight 1"
 spacerSize: The size of the spacers around.
     Default: "weight 1"
+containerProps: properties you want to pass down to the container object that will surround the children.
+    A use might be styling the container with: "containerProps={{style: {color: "red"}}}"
 ```
 
 ````Html
@@ -145,6 +149,8 @@ contentSize: The size of the content. "Weight" will behave as if there were two 
     Default: "weight 1"
 spacerSize: The size of the spacers around.
     Default: "weight 1"
+containerProps: properties you want to pass down to the container object that will surround the children.
+    A use might be styling the container with: "containerProps={{style: {color: "red"}}}"
 ```
 
 ````Html

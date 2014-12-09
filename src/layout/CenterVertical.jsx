@@ -12,10 +12,11 @@ var CenterVertical = React.createClass({
         };
     },
     render() {
+        var {containerProps, ...otherProps} = this.props;
         return (
-            <Layout {...this.props} orientation="vertical">
+            <Layout {...otherProps} orientation="vertical">
                 <Spacer size={this.props.spacerSize}/>
-                <Layout size={this.props.contentSize}>
+                <Layout {...containerProps} size={this.props.contentSize}>
                     {this.props.children}
                 </Layout>
                 <Spacer size={this.props.spacerSize}/>

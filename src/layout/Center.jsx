@@ -14,9 +14,10 @@ var Center = React.createClass({
         };
     },
     render() {
+        var {containerProps, ...otherProps} = this.props;
         return (
-            <CenterVertical {...this.props} contentSize={this.props.contentHeight} spacerSize={this.props.verticalSpacer}>
-                <CenterHorizontal contentSize={this.props.contentWidth} spacerSize={this.props.horizontalSpacer}>
+            <CenterVertical {...otherProps} contentSize={this.props.contentHeight} spacerSize={this.props.verticalSpacer}>
+                <CenterHorizontal contentSize={this.props.contentWidth} spacerSize={this.props.horizontalSpacer} containerProps={containerProps}>
                     {this.props.children}
                 </CenterHorizontal>
             </CenterVertical>

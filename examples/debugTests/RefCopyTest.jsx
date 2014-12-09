@@ -3,7 +3,7 @@
 "use strict";
 
 var React = require('react/addons'),
-    {Layout} = require('../src/index');
+    {Layout} = require('../../src/index');
 
 var RefCopyTest = React.createClass({
     clicked(e) {

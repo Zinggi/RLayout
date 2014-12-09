@@ -1,7 +1,7 @@
 "use strict";
 
 var React = require('react/addons'),
-    {Layout, Center} = require('../src/index');
+    {Layout, Center} = require('../../src/index');
 
 var CenterSpacerSizeTest = React.createClass({
     render() {

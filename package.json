@@ -1,6 +1,6 @@
 {
   "name": "r-layout",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "author": "Florian Zinggeler",
   "description": "Layout made simple. Screw CSS!",
   "main": "./src/index.jsx",
