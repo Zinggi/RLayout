@@ -57,7 +57,7 @@ Use it only on the root element.
 ```
 
 **Attributes:**
-```JSON
+```Scala
 size: Determines the size of this Layout. Available values:
     "42px" : Size in pixel
     "0.42 ofParent": 42% of the parent size
@@ -74,6 +74,7 @@ orientation: Determines how the children are laid out.
 calculatedWidth: Only the root Layout must specify this value.
     For the top element use: window.innerWidth
     Everywhere else just pass along the parent value: this.props.calculatedWidth
+    You could also just pass along all parent props: {...this.props}
 
 calculatedHeight: Same as above, replace Width with Height
 
@@ -150,6 +151,10 @@ contentSize: The size of the content. "Weight" will behave as if there were two 
 
 Add "matchChildren" as a valid size attribute.
 
+---
+## Develop
+
+Just run `grunt dev`
 
 ---
 ## License
