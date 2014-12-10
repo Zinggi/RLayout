@@ -246,12 +246,15 @@ Centers it's children horizontally
 ---
 ## Planned
 
-Add "matchChildren" as a valid size attribute.
+Add `"matchChildren"` as a valid size attribute.
 
 ---
 ## Develop
 
-Just run `grunt dev`
+First time, run:  
+`npm install`  
+After that, Just run:  
+`grunt dev`
 
 ---
 ## License
