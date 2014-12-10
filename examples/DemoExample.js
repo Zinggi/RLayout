@@ -47,24 +47,23 @@
 	"use strict";
 
 	var React = __webpack_require__(8),
-	    $__0=    __webpack_require__(4),Layout=$__0.Layout,resizeMixin=$__0.resizeMixin,Spacer=$__0.Spacer,
-	    Simple = __webpack_require__(1),
-	    LongChild = __webpack_require__(2),
-	    BasicLayoutTest = __webpack_require__(3);
+	    $__0=   __webpack_require__(4),Layout=$__0.Layout,resizeMixin=$__0.resizeMixin;
 
-	var RefCopyTest = __webpack_require__(5),
-	    CenterSpacerSize = __webpack_require__(6),
-	    PassPropsTest = __webpack_require__(7);
+	var color = function(c)  {return { backgroundColor: c};};
 
-	var ShowcaseContainer = React.createClass({displayName: 'ShowcaseContainer',
+	var App = React.createClass({displayName: 'App',
 	    render:function() {
 	        return (
-	            React.createElement(Layout, React.__spread({},  this.props), 
-	                React.createElement(Layout, {size: "50px"}, 
-	                    React.createElement("button", {onClick: function()  {return this.props.switchView("root");}.bind(this)}, "Back")
+	            /*{...this.props} makes sure that the <App> component behaves just like a Layout component.*/
+	            React.createElement(Layout, React.__spread({},  this.props, {orientation: "horizontal", style: {outline: "1px #000 solid"}}), 
+	                React.createElement(Layout, {size: "weight 2", style: color("#D6E6FF")}, 
+	                    "I'm on the left, 2/7 of the remaining space wide."
 	                ), 
-	                React.createElement(Layout, null, 
-	                    this.props.show
+	                React.createElement(Layout, {size: "weight 5", style: color("lightBlue")}, 
+	                    "I'm in the center, taking 5/7 of the remaining space." 
+	                ), 
+	                React.createElement(Layout, {size: "60px", style: color("#4EC8CF")}, 
+	                    "I'm on the right, 60px wide."
 	                )
 	            )
 	        );
@@ -72,202 +71,30 @@
 	});
 
 	var Root = React.createClass({displayName: 'Root',
-	    render:function() {
-	        var debugTestViews;
-	        if (this.props.showDebug) {
-	            debugTestViews = React.createElement(Layout, null, 
-	                React.createElement("button", {onClick: function()  {return this.props.switchView("refCopyTest");}.bind(this)}, "refCopyTest"), React.createElement("br", null), 
-	                React.createElement("button", {onClick: function()  {return this.props.switchView("centerSpacerSize");}.bind(this)}, "centerSpacerSize"), React.createElement("br", null), 
-	                React.createElement("button", {onClick: function()  {return this.props.switchView("PassPropsTest");}.bind(this)}, "PassPropsTest"), React.createElement("br", null)
-	            );
-	        }
-	        return (
-	            React.createElement(Layout, React.__spread({},  this.props), 
-	                React.createElement(Layout, {size: "100px"}, 
-	                    React.createElement("h1", null, "Choose example:")
-	                ), 
-	                React.createElement(Layout, null, 
-	                    React.createElement("button", {onClick: function()  {return this.props.switchView("simple");}.bind(this)}, "Simple layout"), 
-	                    "Using composed layout elements", React.createElement("br", null), 
-	                    React.createElement("button", {onClick: function()  {return this.props.switchView("basicTest");}.bind(this)}, "Basic test layout"), 
-	                    "Only using 'Layout'", React.createElement("br", null), 
-	                    React.createElement("button", {onClick: function()  {return this.props.switchView("longChild");}.bind(this)}, "Long child"), 
-	                    "Example with a child thats longer than the parent", React.createElement("br", null)
-	                ), 
-	                debugTestViews
-	            )
-	        );
-	    }
-	});
-
-	var App = React.createClass({displayName: 'App',
 	    mixins: [resizeMixin],
-	    getInitialState:function() {
-	        return { current: "root" };
-	    },
-	    goBack:function() {
-	        this.setState({ current: "root" });
-	    },
-	    switchView:function(view) {
-	        this.setState({ current: view });
-	    },
 	    render:function() {
-	        var show = {
-	            root: Root,
-	            simple: React.createElement(Simple, null),
-	            longChild: React.createElement(LongChild, null),
-	            basicTest: React.createElement(BasicLayoutTest, null),
-	            refCopyTest: React.createElement(RefCopyTest, null),
-	            centerSpacerSize: React.createElement(CenterSpacerSize, null),
-	            PassPropsTest: React.createElement(PassPropsTest, null),
-	        }[this.state.current];
-
-	        if (this.state.current === "root") {
-	            show = React.createElement(Root, {switchView: this.switchView, showDebug: window.__debugLayout});
-	        } else {
-	            show = React.createElement(ShowcaseContainer, {switchView: this.switchView, show: show});
-	        }
 	        return (
 	            /* The root instance needs a fixes height and width */
 	            React.createElement(Layout, {calculatedWidth: window.innerWidth, calculatedHeight: window.innerHeight}, 
-	                show
-	            )
-	        );
-	    }
-	});
-
-	window.__debugLayout = false;
-
-	React.render(React.createElement(App, null), document.querySelector('body'));
-
-/***/ },
-/* 1 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	var React = __webpack_require__(8),
-	    $__0=     __webpack_require__(4),Layout=$__0.Layout,Center=$__0.Center,CenterHorizontal=$__0.CenterHorizontal,CenterVertical=$__0.CenterVertical;
-
-	var Simple = React.createClass({displayName: 'Simple',
-	    render:function() {
-	        var style = function(color)  {return {
-	            background: color
-	        };};
-	        var outline = {
-	            outline: "1px solid #000"
-	        };
-	        return (
-	            React.createElement(Layout, React.__spread({},  this.props), 
-	                React.createElement(CenterVertical, {contentSize: "weight 2", style: style("AliceBlue")}, 
-	                    React.createElement(Layout, {style: outline}, "This is vertically centered!")
+	                React.createElement(Layout, {style: color("#FFEFD6")}, 
+	                    "Header, fills the remaining space."
 	                ), 
-	                React.createElement(CenterHorizontal, {contentSize: "weight 1", style: style("Bisque")}, 
-	                    React.createElement(Layout, {style: outline}, 
-	                        React.createElement("img", {src: "https://www.google.com/images/srpr/logo11w.png"}), 
-	                        "This image is horizontally centered!"
-	                    )
-	                ), 
-	                React.createElement(Center, {contentWidth: "0.25 ofParent", contentHeight: "0.25 ofParent", style: style("DarkSeaGreen")}, 
-	                    React.createElement(Layout, {style: outline}, "This is totally centered! check this out!")
+	                /* Notice that we can control the size of the <App> component just the same as any other Layout */
+	                React.createElement(App, {size: "0.7 ofParent"}), 
+	                React.createElement(Layout, {size: "50px", style: color("#FFEFD6")}, 
+	                    "Footer, fixed height of 50px."
 	                )
 	            )
 	        );
 	    }
 	});
 
-	module.exports = Simple;
-
-
-/***/ },
-/* 2 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	var React = __webpack_require__(8),
-	    $__0=  __webpack_require__(4),Layout=$__0.Layout;
-
-	var LongChild = React.createClass({displayName: 'LongChild',
-	    render:function() {
-	        var outline = {
-	            outline: "1px solid #000"
-	        };
-	        return (
-	            React.createElement(Layout, React.__spread({},  this.props, {orientation: "vertical"}), 
-	                React.createElement(Layout, {size: "300px", style: outline}, 
-	                    "I'm 300px."
-	                ), 
-	                React.createElement(Layout, {style: outline}, 
-	                    "I'm 1."
-	                ), 
-	                React.createElement(Layout, {orientation: "horizontal", size: "weight 3", style: {overflowX: "auto", overflowY: "hidden"}}, 
-	                    React.createElement(Layout, {size: "2 ofParent", orientation: "horizontal"}, 
-	                        React.createElement(Layout, {style: outline}, "Page 1: I'm 3 high and half a page wide"), 
-	                        React.createElement(Layout, {size: "weight 2", style: outline}, "Page 2: I'm 3 high and a whole page wide"), 
-	                        React.createElement(Layout, {style: outline}, "Page 3: I'm 3 high and half a page wide")
-	                    )
-	                ), 
-	                React.createElement(Layout, {size: "0.2 ofParent", style: outline}, 
-	                    "I'm 0.2 ofParent."
-	                )
-	            )
-	        );
-	    }
-	});
-
-	module.exports = LongChild;
+	React.render(React.createElement(Root, null), document.querySelector('body'));
 
 /***/ },
-/* 3 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	var React = __webpack_require__(8),
-	    $__0=  __webpack_require__(4),Layout=$__0.Layout;
-
-	var BasicLayoutTest = React.createClass({displayName: 'BasicLayoutTest',
-	    render:function() {
-	        var outline = {
-	            outline: "1px solid #000"
-	        };
-	        return (
-	            React.createElement(Layout, React.__spread({},  this.props, {orientation: "vertical"}), 
-	                React.createElement(Layout, {orientation: "horizontal", size: "weight 1"}, 
-	                    React.createElement(Layout, {size: "weight 1", style: outline}, 
-	                        "I fill the rest of the page"
-	                    ), 
-	                    React.createElement(Layout, {size: "500px", style: outline}, 
-	                        "Yo! I'm exactely 500px!"
-	                    )
-	                ), 
-	                React.createElement(Layout, {orientation: "horizontal", size: "weight 3"}, 
-	                    React.createElement(Layout, {size: "weight 1", style: outline}, 
-	                        "left"
-	                    ), 
-	                    React.createElement(Layout, {size: "weight 3", style: outline}, 
-	                        React.createElement(Layout, null, "I fill the rest!"), 
-	                        React.createElement(Layout, {size: "0.3 ofParent", style: outline}, "I'm 30% of my parent!"), 
-	                        React.createElement(Layout, {size: "50px"}, "I'm 50px")
-	                    ), 
-	                    React.createElement(Layout, {size: "weight 1", style: {overflow: "auto"}}, 
-	                        "Section 1.10.32 of \"de Finibus Bonorum et Malorum\", written by Cicero in 45 BC" + ' ' +
-
-	"\"Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?\""
-	                    )
-	                ), 
-	                React.createElement(Layout, {size: "weight 1", style: outline}, 
-	                    "I'm at the bottom!"
-	                )
-	            )
-	        );
-	    }
-	});
-
-	module.exports = BasicLayoutTest;
-
-/***/ },
+/* 1 */,
+/* 2 */,
+/* 3 */,
 /* 4 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -295,92 +122,9 @@
 	};
 
 /***/ },
-/* 5 */
-/***/ function(module, exports, __webpack_require__) {
-
-	// This test checks if we can use key attributes.
-	// 
-	"use strict";
-
-	var React = __webpack_require__(8),
-	    $__0=  __webpack_require__(4),Layout=$__0.Layout;
-
-	var RefCopyTest = React.createClass({displayName: 'RefCopyTest',
-	    clicked:function(e) {
-	        console.log("Should contain three objects: ");
-	        console.log(this.refs);
-	        console.log("e.target: ");
-	        console.log(e.target);
-	        console.log("should be the same as doing this.refs[ref].getDOMNode()");
-	    },
-	    render:function() {
-	        return (
-	            React.createElement(Layout, React.__spread({},  this.props), 
-	                React.createElement("div", null, React.createElement("a", {ref: "test", onClick: this.clicked}, "Click me (wraped in div)")), 
-	                React.createElement("a", {ref: "test2", onClick: this.clicked}, "Click me (not wraped)"), 
-	                React.createElement(Layout, {ref: "test3", onClick: this.clicked}, "Click me (I'm a layout and causing trouble)")
-	            )
-	        );
-	    }
-	});
-
-	module.exports = RefCopyTest;
-
-
-/***/ },
-/* 6 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	var React = __webpack_require__(8),
-	    $__0=   __webpack_require__(4),Layout=$__0.Layout,Center=$__0.Center;
-
-	var CenterSpacerSizeTest = React.createClass({displayName: 'CenterSpacerSizeTest',
-	    render:function() {
-	        return (
-	            React.createElement(Center, React.__spread({},  this.props, {horizontalSpacer: "0.1 ofParent", verticalSpacer: "50px"}), 
-	                React.createElement(Layout, {style: {outline: "1px solid #000"}}, 
-	                    "Left and rigth of me are 0.1 ofParent," + ' ' +
-	                    "Top and bottom are 50px."
-	                )
-	            )
-	        );
-	    }
-	});
-
-	module.exports = CenterSpacerSizeTest;
-
-
-/***/ },
-/* 7 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	var React = __webpack_require__(8),
-	    $__0=   __webpack_require__(4),Layout=$__0.Layout,Center=$__0.Center;
-
-	var test = React.createClass({displayName: 'test',
-	    render:function() {
-	        var innerStyle = {
-	            style: {outline: "1px solid red"}
-	        };
-	        var outerStyle = {
-	            outline: "1px solid green"
-	        };
-	        return (
-	            React.createElement(Center, React.__spread({},  this.props, {style: outerStyle, horizontalSpacer: "0.1 ofParent", verticalSpacer: "50px", containerProps: innerStyle}), 
-	                "My container received those props: ", JSON.stringify(innerStyle)
-	            )
-	        );
-	    }
-	});
-
-	module.exports = test;
-
-
-/***/ },
+/* 5 */,
+/* 6 */,
+/* 7 */,
 /* 8 */
 /***/ function(module, exports, __webpack_require__) {
 
