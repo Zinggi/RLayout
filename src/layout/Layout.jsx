@@ -62,7 +62,10 @@ var getChildSize = (child, isVertical, parentSize) => {
         // if it either isn't a react element or if we couldn't find the size, measure it.
         return measureDomElement(child, isVertical, parentSize);
     } else {
-        console.error("couldn't determine child size! You can only have one child when using 'matchChild'!");
+        if (child instanceof Array) {
+            console.error("couldn't determine child size! You can only have one child when using 'matchChild'!");
+        }
+        return measureDomElement(child, isVertical, parentSize);
     }
 };
 
