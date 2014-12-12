@@ -1,5 +1,7 @@
 "use strict";
 
+window.__debugLayout = false;
+
 var React = require('react/addons'),
     {Layout, resizeMixin, Spacer} = require('../src/index'),
     Simple = require('./Simple'),
@@ -8,7 +10,7 @@ var React = require('react/addons'),
 
 var RefCopyTest = require('./debugTests/RefCopyTest'),
     CenterSpacerSize = require('./debugTests/CenterSpacerSizeTest'),
-    MatchChildrenTest = require('./debugTests/MatchChildrenTest'),
+    MatchChildTest = require('./debugTests/MatchChildTest'),
     PassPropsTest = require('./debugTests/passPropsToInnerContainer');
 
 var ShowcaseContainer = React.createClass({
@@ -34,7 +36,7 @@ var Root = React.createClass({
                 <button onClick={() => this.props.switchView("refCopyTest")}>refCopyTest</button><br/>
                 <button onClick={() => this.props.switchView("centerSpacerSize")}>centerSpacerSize</button><br/>
                 <button onClick={() => this.props.switchView("PassPropsTest")}>PassPropsTest</button><br/>
-                <button onClick={() => this.props.switchView("MatchChildrenTest")}>MatchChildrenTest</button><br/>
+                <button onClick={() => this.props.switchView("MatchChildTest")}>MatchChildTest</button><br/>
             </Layout>;
         }
         return (
@@ -76,7 +78,7 @@ var App = React.createClass({
             refCopyTest: <RefCopyTest />,
             centerSpacerSize: <CenterSpacerSize />,
             PassPropsTest: <PassPropsTest />,
-            MatchChildrenTest: <MatchChildrenTest />,
+            MatchChildTest: <MatchChildTest />,
         }[this.state.current];
 
         if (this.state.current === "root") {
@@ -92,7 +94,5 @@ var App = React.createClass({
         );
     }
 });
-
-window.__debugLayout = false;
 
 React.render(<App />, document.querySelector('body'));

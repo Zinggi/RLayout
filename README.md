@@ -10,7 +10,8 @@ This project tries to make this much easier, while at the same time stay very fl
 
 ## Examples
 
-[Demo](http://zinggi.github.io/RLayout/) / [Src](examples)
+[Demo 1](http://zinggi.github.io/RLayout/DemoExample.html) / [Src](examples/DemoExample.jsx)  
+[More demos](http://zinggi.github.io/RLayout/) / [Src](examples)
 
 ## Install
 
@@ -124,6 +125,7 @@ The most important component. Everything else is composed out of `<Layout/>` com
  * `"42px"`: Size in pixel
  * `"0.42 ofParent"`: 42% of the parent size
  * `"weight 4.2"`: A Layout with a size in weight will fill the remaining space, divided based on the weight value. E.g. two Layouts with `"weight 1"` / `"weight 3"` will take `0.25` / `0.75` of the remaining space.  
+ * `"matchChild"`: Tries to match it's size to that of it's child. **Note**: Only one child is supported. The child needs to be an element with a size property of `"__px"` *or* an element whose size can be immediately determined by rendering it. This means no images! The problem is, that determining an image's size can only be done after it has been rendered, therefore delaying the whole layout process. **Note 2:** This is pretty hacky! React gives a warning if we need to measure, because we are rendering other components inside the render method, so use sparingly.
 
 => *Default:* `"weight 1"`
 
@@ -241,12 +243,6 @@ Centers it's children horizontally
 
 **containerProps:** properties you want to pass down to the container object that will surround the children.
     A use might be styling the container with: `containerProps={{style: {color: "red"}}}`
-
-
----
-## Planned
-
-Add `"matchChildren"` as a valid size attribute.
 
 ---
 ## Develop
