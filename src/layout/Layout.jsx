@@ -90,7 +90,7 @@ var Layout = React.createClass({
     },
     componentDidMount() {
         var childIndexes = toArray(this.props.children).map((c, i) => {
-            if (c.props && matchChildRegex.test(c.props.size)){
+            if (c && c.props && matchChildRegex.test(c.props.size)){
                 return i;
             }
             return -1;
