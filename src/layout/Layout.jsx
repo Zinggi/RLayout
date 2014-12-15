@@ -59,14 +59,13 @@ var getChildSize = (child, isVertical, parentSize) => {
                 return sizePx;
             }
         }
-        // if it either isn't a react element or if we couldn't find the size, measure it.
-        return measureDomElement(child, isVertical, parentSize);
-    } else {
-        if (child instanceof Array) {
-            console.error("couldn't determine child size! You can only have one child when using 'matchChild'!");
-        }
-        return measureDomElement(child, isVertical, parentSize);
     }
+    if (child instanceof Array) {
+        console.error("couldn't determine child size! You can only have one child when using 'matchChild'!");
+    }
+    return 0;
+    // if it either isn't a react element or if we couldn't find the size, measure it.
+    // return measureDomElement(child, isVertical, parentSize);
 };
 
 var Layout = React.createClass({
@@ -88,6 +87,24 @@ var Layout = React.createClass({
             orientation: "vertical",
             size: "weight 1"
         };
+    },
+    componentDidMount() {
+        var childIndexes = toArray(this.props.children).map((c, i) => {
+            if (c.props && matchChildRegex.test(c.props.size)){
+                return i;
+            }
+            return -1;
+        }).filter(i => i !== -1);
+        if (childIndexes.length > 0) {
+            var node = this.getDOMNode();
+            var orientation = (this.props.orientation === "vertical") ? "clientHeight" : "clientWidth";
+            var childSizes = childIndexes.map(i => node.children[i][orientation]);
+            var map = {};
+            for(var i = 0; i < childIndexes.length; i += 1) {
+                map[childIndexes[i] ] = childSizes[i];
+            }
+            this.setState({ childSizes: map });
+        }
     },
     render() {
         // break if the 'break' is set, useful for debugging.
@@ -115,9 +132,13 @@ var Layout = React.createClass({
         var getWeigth = (size) => {
             return parseNum(size || "weight 1", weigthRegex);
         };
-        var getMatchChildSize = (child, s) => {
+        var getMatchChildSize = (child, i, s) => {
             if (!matchChildRegex.test(s)) {
                 return 0;
+            }
+            if (this.state && this.state.childSizes){
+                // return child.state.childSize;
+                return this.state.childSizes[i];
             }
             return getChildSize(child.props.children, isVertical, (isVertical) ? width : height);
         };
@@ -136,7 +157,7 @@ var Layout = React.createClass({
         var finalSizes = children.map((c, i) => {
             if (React.isValidElement(c)) {
                 var size = c.props.size;
-                var px = oneOf([getPixelSize, getOfParentSize, s => getMatchChildSize(c, s)], size);
+                var px = oneOf([getPixelSize, getOfParentSize, s => getMatchChildSize(c, i, s)], size);
                 if (px !== 0) {
                     pxIndexes.push(i);
                     return px;
@@ -187,9 +208,10 @@ var Layout = React.createClass({
             return c;
         });
 
+        var isMatchChild = matchChildRegex.test(this.props.size);
         var layoutStyle = {
-            width: width+"px",
-            height: height+"px",
+            width: (isMatchChild && width === 0) ? undefined : width+"px",
+            height: (isMatchChild && height === 0) ? undefined : height+"px",
             top: top+"px",
             left: left+"px",
             position: "absolute"

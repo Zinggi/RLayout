@@ -16,10 +16,24 @@ var matchChildTest = React.createClass({
                     </div>
                 </Layout>
                 <Layout size="matchChild">
-                    <div size="200px">
-                        This is 200px!
-                    </div>
+                    <Im200 />
                 </Layout>
+                <Layout>
+                    Fill the rest
+                </Layout>
+            </Layout>
+        );
+    }
+});
+
+var Im200 = React.createClass({
+    getDefaultProps() {
+        return { size: "200px" }
+    },
+    render() {
+        return (
+            <Layout {...this.props}>
+                This is 200px!
             </Layout>
         );
     }
