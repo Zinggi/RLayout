@@ -28,7 +28,7 @@ var matchChildTest = React.createClass({
 
 var Im200 = React.createClass({
     getDefaultProps() {
-        return { size: "200px" }
+        return { size: "200px" };
     },
     render() {
         return (

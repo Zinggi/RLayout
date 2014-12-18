@@ -77,15 +77,19 @@ var Layout = React.createClass({
         },
         size(props, propName, componentName) {
             if ( !validSizeRegex.test(props[propName]) ) {
-                return new Error('"size" needs to be either: "matchChildren", "weight 42", "42px" or "0.42 ofParent"');
+                return new Error('"size" needs to be either: "matchChild", "weight 42", "42px" or "0.42 ofParent"');
             }
         }
     },
-
     getDefaultProps() {
         return {
             orientation: "vertical",
             size: "weight 1"
+        };
+    },
+    getInitialState() {
+        return {
+            childSizes: []
         };
     },
     componentDidMount() {
@@ -98,11 +102,18 @@ var Layout = React.createClass({
         if (childIndexes.length > 0) {
             var node = this.getDOMNode();
             var orientation = (this.props.orientation === "vertical") ? "clientHeight" : "clientWidth";
-            var childSizes = childIndexes.map(i => node.children[i][orientation]);
+            var childSizes = childIndexes.map(i => {
+                var test = node.children[i];
+                if (test[orientation] === 0) {
+                    return test.children[0][orientation];
+                }
+                return test[orientation];
+            });
             var map = {};
             for(var i = 0; i < childIndexes.length; i += 1) {
-                map[childIndexes[i] ] = childSizes[i];
+                map[childIndexes[i]] = childSizes[i];
             }
+
             this.setState({ childSizes: map });
         }
     },
@@ -140,7 +151,7 @@ var Layout = React.createClass({
                 // return child.state.childSize;
                 return this.state.childSizes[i];
             }
-            return getChildSize(child.props.children, isVertical, (isVertical) ? width : height);
+            return 0;/*getChildSize(child.props.children, isVertical, (isVertical) ? width : height);*/
         };
 
         var oneOf = (fns, string) => {
