@@ -125,7 +125,7 @@ The most important component. Everything else is composed out of `<Layout/>` com
  * `"42px"`: Size in pixel
  * `"0.42 ofParent"`: 42% of the parent size
  * `"weight 4.2"`: A Layout with a size in weight will fill the remaining space, divided based on the weight value. E.g. two Layouts with `"weight 1"` / `"weight 3"` will take `0.25` / `0.75` of the remaining space.  
- * `"matchChild"`: Tries to match it's size to that of it's child. **Note**: Only one child is supported. The child needs to be an element with a size property of `"__px"` *or* an element whose size can be immediately determined by rendering it. This means no images! The problem is, that determining an image's size can only be done after it has been rendered, therefore delaying the whole layout process. **Note 2:** This is pretty hacky! React gives a warning if we need to measure, because we are rendering other components inside the render method, so use sparingly.
+ * `"matchChild"`: Tries to match it's size to that of it's child. **Note**: Only one child is supported. The child needs to be an element with a size property of `"__px"` *or* an element whose size can be immediately determined by rendering it. This can be used to make something exactly the size of it's containing text, or the size of an image.
 
 => *Default:* `"weight 1"`
 
@@ -179,6 +179,8 @@ Centers it's children.
 ```
 ##### attributes:
 
+Same as Layout plus: 
+
 **contentHeight:** The height of the content. `"Weight x"` will behave as if there were two Spacers around.
 
 => *Default:* `"weight 1"`
@@ -208,6 +210,8 @@ Centers it's children vertically
 
 ##### attributes:
 
+Same as Layout plus: 
+
 **contentSize:** The size of the content. `"weight x"` will behave as if there were two Spacers around.
 
 => *Default:* `"weight 1"`
@@ -232,6 +236,8 @@ Centers it's children horizontally
 ```
 
 ##### attributes:
+
+Same as Layout plus: 
 
 **contentSize:** The size of the content. `"weight x"` will behave as if there were two Spacers around.
 
