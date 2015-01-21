@@ -142,6 +142,11 @@ The most important component. Everything else is composed out of `<Layout/>` com
 
 **calculatedHeight:** Same as above, replace Width with Height.
 
+**absolute:** Indicate that this element doesn't takes any space up for others.
+    The element will be positioned exactly like it's parent. Good when things need to be over something else.
+
+**free:** Similar to `absolute`, this element won't claim any space. However, it will be positioned like the view port.
+    (This is basically the same as `position: fixed;`)
 
 **dontRender:** Indicate that this Layout shouldn't render anything. Used for spacers.
 

@@ -124,6 +124,10 @@ var Layout = React.createClass({
         var weightIndexes = [], pxIndexes = [];
         var finalSizes = children.map((c, i) => {
             if (React.isValidElement(c)) {
+                if (c.props.absolute || c.props.free) {
+                    // absolute or free layout elements take up no space
+                    return 0;
+                }
                 var size = c.props.size;
                 var px = oneOf([getPixelSize, getOfParentSize, s => getMatchChildSize(c, i, s)], size);
                 if (px !== 0) {
@@ -148,15 +152,31 @@ var Layout = React.createClass({
 
         var currentPosition = 0;
         var childComponents = children.map((c, i) => {
-            var size = finalSizes[i];
-            var childW = (isVertical) ? width : size;
-            var childH = (isVertical) ? size : height;
             if (React.isValidElement(c)) {
+                var size = finalSizes[i];
+                var childW = width;//(isVertical) ? width : size;
+                var childH = height;//(isVertical) ? size : height;
+
+                var isntFree = !c.props.absolute && !c.props.free;
+                var newTop = 0;
+                var newLeft = 0;
+                if (isntFree) {
+                    if (isVertical) {
+                        childH = size;
+                        newTop = currentPosition;
+                    } else {
+                        childW = size;
+                        newLeft = currentPosition;
+                    }
+                } if (c.props.free) {
+                    childH = window.innerHeight;
+                    childW = window.innerWidth;
+                }
                 var newProps = {
                     calculatedWidth: childW,
                     calculatedHeight: childH,
-                    calculatedTop: (isVertical) ? currentPosition : 0,
-                    calculatedLeft: (isVertical) ? 0 : currentPosition,
+                    calculatedTop: newTop,
+                    calculatedLeft: newLeft,
                     key: c.props.key || i,
                 };
                 currentPosition += size;
@@ -182,7 +202,7 @@ var Layout = React.createClass({
             height: (isMatchChild && height === 0) ? undefined : height+"px",
             top: top+"px",
             left: left+"px",
-            position: "absolute"
+            position: this.props.free ? "fixed" : "absolute"
         };
 
         if (this.props.debug) {

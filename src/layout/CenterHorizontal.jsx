@@ -12,11 +12,11 @@ var CenterHorizontal = React.createClass({
         };
     },
     render() {
-        var {containerProps, ...otherProps} = this.props;
+        var {containerProps, orientation, ...otherProps} = this.props;
         return (
             <Layout {...otherProps} orientation="horizontal">
                 <Spacer size={this.props.spacerSize}/>
-                <Layout {...containerProps} size={this.props.contentSize}>
+                <Layout {...containerProps} orientation={orientation} size={this.props.contentSize}>
                     {this.props.children}
                 </Layout>
                 <Spacer size={this.props.spacerSize}/>

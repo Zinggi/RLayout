@@ -263,6 +263,10 @@
 	        var weightIndexes = [], pxIndexes = [];
 	        var finalSizes = children.map(function(c, i)  {
 	            if (React.isValidElement(c)) {
+	                if (c.props.absolute || c.props.free) {
+	                    // absolute or free layout elements take up no space
+	                    return 0;
+	                }
 	                var size = c.props.size;
 	                var px = oneOf([getPixelSize, getOfParentSize, function(s)  {return getMatchChildSize(c, i, s);}], size);
 	                if (px !== 0) {
@@ -287,15 +291,31 @@
 
 	        var currentPosition = 0;
 	        var childComponents = children.map(function(c, i)  {
-	            var size = finalSizes[i];
-	            var childW = (isVertical) ? width : size;
-	            var childH = (isVertical) ? size : height;
 	            if (React.isValidElement(c)) {
+	                var size = finalSizes[i];
+	                var childW = width;//(isVertical) ? width : size;
+	                var childH = height;//(isVertical) ? size : height;
+
+	                var isntFree = !c.props.absolute && !c.props.free;
+	                var newTop = 0;
+	                var newLeft = 0;
+	                if (isntFree) {
+	                    if (isVertical) {
+	                        childH = size;
+	                        newTop = currentPosition;
+	                    } else {
+	                        childW = size;
+	                        newLeft = currentPosition;
+	                    }
+	                } if (c.props.free) {
+	                    childH = window.innerHeight;
+	                    childW = window.innerWidth;
+	                }
 	                var newProps = {
 	                    calculatedWidth: childW,
 	                    calculatedHeight: childH,
-	                    calculatedTop: (isVertical) ? currentPosition : 0,
-	                    calculatedLeft: (isVertical) ? 0 : currentPosition,
+	                    calculatedTop: newTop,
+	                    calculatedLeft: newLeft,
 	                    key: c.props.key || i,
 	                };
 	                currentPosition += size;
@@ -321,7 +341,7 @@
 	            height: (isMatchChild && height === 0) ? undefined : height+"px",
 	            top: top+"px",
 	            left: left+"px",
-	            position: "absolute"
+	            position: this.props.free ? "fixed" : "absolute"
 	        };
 
 	        if (this.props.debug) {
@@ -365,10 +385,13 @@
 	        };
 	    },
 	    render:function() {
-	        var $__0=   this.props,containerProps=$__0.containerProps,otherProps=(function(source, exclusion) {var rest = {};var hasOwn = Object.prototype.hasOwnProperty;if (source == null) {throw new TypeError();}for (var key in source) {if (hasOwn.call(source, key) && !hasOwn.call(exclusion, key)) {rest[key] = source[key];}}return rest;})($__0,{containerProps:1});
+	        var $__0=    this.props,containerProps=$__0.containerProps,orientation=$__0.orientation,otherProps=(function(source, exclusion) {var rest = {};var hasOwn = Object.prototype.hasOwnProperty;if (source == null) {throw new TypeError();}for (var key in source) {if (hasOwn.call(source, key) && !hasOwn.call(exclusion, key)) {rest[key] = source[key];}}return rest;})($__0,{containerProps:1,orientation:1});
 	        return (
 	            React.createElement(CenterVertical, React.__spread({},  otherProps, {contentSize: this.props.contentHeight, spacerSize: this.props.verticalSpacer}), 
-	                React.createElement(CenterHorizontal, {contentSize: this.props.contentWidth, spacerSize: this.props.horizontalSpacer, containerProps: containerProps}, 
+	                React.createElement(CenterHorizontal, {contentSize: this.props.contentWidth, 
+	                                  spacerSize: this.props.horizontalSpacer, 
+	                                  orientation: orientation, 
+	                                  containerProps: containerProps}, 
 	                    this.props.children
 	                )
 	            )
@@ -396,11 +419,11 @@
 	        };
 	    },
 	    render:function() {
-	        var $__0=   this.props,containerProps=$__0.containerProps,otherProps=(function(source, exclusion) {var rest = {};var hasOwn = Object.prototype.hasOwnProperty;if (source == null) {throw new TypeError();}for (var key in source) {if (hasOwn.call(source, key) && !hasOwn.call(exclusion, key)) {rest[key] = source[key];}}return rest;})($__0,{containerProps:1});
+	        var $__0=    this.props,containerProps=$__0.containerProps,orientation=$__0.orientation,otherProps=(function(source, exclusion) {var rest = {};var hasOwn = Object.prototype.hasOwnProperty;if (source == null) {throw new TypeError();}for (var key in source) {if (hasOwn.call(source, key) && !hasOwn.call(exclusion, key)) {rest[key] = source[key];}}return rest;})($__0,{containerProps:1,orientation:1});
 	        return (
 	            React.createElement(Layout, React.__spread({},  otherProps, {orientation: "horizontal"}), 
 	                React.createElement(Spacer, {size: this.props.spacerSize}), 
-	                React.createElement(Layout, React.__spread({},  containerProps, {size: this.props.contentSize}), 
+	                React.createElement(Layout, React.__spread({},  containerProps, {orientation: orientation, size: this.props.contentSize}), 
 	                    this.props.children
 	                ), 
 	                React.createElement(Spacer, {size: this.props.spacerSize})
@@ -429,11 +452,11 @@
 	        };
 	    },
 	    render:function() {
-	        var $__0=   this.props,containerProps=$__0.containerProps,otherProps=(function(source, exclusion) {var rest = {};var hasOwn = Object.prototype.hasOwnProperty;if (source == null) {throw new TypeError();}for (var key in source) {if (hasOwn.call(source, key) && !hasOwn.call(exclusion, key)) {rest[key] = source[key];}}return rest;})($__0,{containerProps:1});
+	        var $__0=    this.props,containerProps=$__0.containerProps,orientation=$__0.orientation,otherProps=(function(source, exclusion) {var rest = {};var hasOwn = Object.prototype.hasOwnProperty;if (source == null) {throw new TypeError();}for (var key in source) {if (hasOwn.call(source, key) && !hasOwn.call(exclusion, key)) {rest[key] = source[key];}}return rest;})($__0,{containerProps:1,orientation:1});
 	        return (
 	            React.createElement(Layout, React.__spread({},  otherProps, {orientation: "vertical"}), 
 	                React.createElement(Spacer, {size: this.props.spacerSize}), 
-	                React.createElement(Layout, React.__spread({},  containerProps, {size: this.props.contentSize}), 
+	                React.createElement(Layout, React.__spread({},  containerProps, {orientation: orientation, size: this.props.contentSize}), 
 	                    this.props.children
 	                ), 
 	                React.createElement(Spacer, {size: this.props.spacerSize})

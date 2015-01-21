@@ -46,7 +46,7 @@
 
 	"use strict";
 
-	window.__debugLayout = false;
+	window.__debugLayout = !false;
 
 	var React = __webpack_require__(10),
 	    $__0=    __webpack_require__(4),Layout=$__0.Layout,resizeMixin=$__0.resizeMixin,Spacer=$__0.Spacer,
@@ -58,8 +58,9 @@
 	    CenterSpacerSize = __webpack_require__(6),
 	    MatchChildTest = __webpack_require__(7),
 	    PerformanceTest = __webpack_require__(8),
-	    PassPropsTest = __webpack_require__(9);
-
+	    PassPropsTest = __webpack_require__(9),
+	    AbsolutelyFreeTest = __webpack_require__(179);
+	    
 	var ShowcaseContainer = React.createClass({displayName: "ShowcaseContainer",
 	    render:function() {
 	        return (
@@ -84,7 +85,8 @@
 	                React.createElement("button", {onClick: function()  {return this.props.switchView("centerSpacerSize");}.bind(this)}, "centerSpacerSize"), React.createElement("br", null), 
 	                React.createElement("button", {onClick: function()  {return this.props.switchView("PassPropsTest");}.bind(this)}, "PassPropsTest"), React.createElement("br", null), 
 	                React.createElement("button", {onClick: function()  {return this.props.switchView("PerformanceTest");}.bind(this)}, "PerformanceTest"), React.createElement("br", null), 
-	                React.createElement("button", {onClick: function()  {return this.props.switchView("MatchChildTest");}.bind(this)}, "MatchChildTest"), React.createElement("br", null)
+	                React.createElement("button", {onClick: function()  {return this.props.switchView("MatchChildTest");}.bind(this)}, "MatchChildTest"), React.createElement("br", null), 
+	                React.createElement("button", {onClick: function()  {return this.props.switchView("AbsolutelyFreeTest");}.bind(this)}, "AbsolutelyFreeTest"), React.createElement("br", null)
 	            );
 	        }
 	        return (
@@ -128,6 +130,7 @@
 	            PassPropsTest: React.createElement(PassPropsTest, null),
 	            PerformanceTest: React.createElement(PerformanceTest, null),
 	            MatchChildTest: React.createElement(MatchChildTest, null),
+	            AbsolutelyFreeTest: React.createElement(AbsolutelyFreeTest, null),
 	        }[this.state.current];
 
 	        if (this.state.current === "root") {
@@ -643,6 +646,10 @@
 	        var weightIndexes = [], pxIndexes = [];
 	        var finalSizes = children.map(function(c, i)  {
 	            if (React.isValidElement(c)) {
+	                if (c.props.absolute || c.props.free) {
+	                    // absolute or free layout elements take up no space
+	                    return 0;
+	                }
 	                var size = c.props.size;
 	                var px = oneOf([getPixelSize, getOfParentSize, function(s)  {return getMatchChildSize(c, i, s);}], size);
 	                if (px !== 0) {
@@ -667,15 +674,31 @@
 
 	        var currentPosition = 0;
 	        var childComponents = children.map(function(c, i)  {
-	            var size = finalSizes[i];
-	            var childW = (isVertical) ? width : size;
-	            var childH = (isVertical) ? size : height;
 	            if (React.isValidElement(c)) {
+	                var size = finalSizes[i];
+	                var childW = width;//(isVertical) ? width : size;
+	                var childH = height;//(isVertical) ? size : height;
+
+	                var isntFree = !c.props.absolute && !c.props.free;
+	                var newTop = 0;
+	                var newLeft = 0;
+	                if (isntFree) {
+	                    if (isVertical) {
+	                        childH = size;
+	                        newTop = currentPosition;
+	                    } else {
+	                        childW = size;
+	                        newLeft = currentPosition;
+	                    }
+	                } if (c.props.free) {
+	                    childH = window.innerHeight;
+	                    childW = window.innerWidth;
+	                }
 	                var newProps = {
 	                    calculatedWidth: childW,
 	                    calculatedHeight: childH,
-	                    calculatedTop: (isVertical) ? currentPosition : 0,
-	                    calculatedLeft: (isVertical) ? 0 : currentPosition,
+	                    calculatedTop: newTop,
+	                    calculatedLeft: newLeft,
 	                    key: c.props.key || i,
 	                };
 	                currentPosition += size;
@@ -701,7 +724,7 @@
 	            height: (isMatchChild && height === 0) ? undefined : height+"px",
 	            top: top+"px",
 	            left: left+"px",
-	            position: "absolute"
+	            position: this.props.free ? "fixed" : "absolute"
 	        };
 
 	        if (this.props.debug) {
@@ -745,10 +768,13 @@
 	        };
 	    },
 	    render:function() {
-	        var $__0=   this.props,containerProps=$__0.containerProps,otherProps=(function(source, exclusion) {var rest = {};var hasOwn = Object.prototype.hasOwnProperty;if (source == null) {throw new TypeError();}for (var key in source) {if (hasOwn.call(source, key) && !hasOwn.call(exclusion, key)) {rest[key] = source[key];}}return rest;})($__0,{containerProps:1});
+	        var $__0=    this.props,containerProps=$__0.containerProps,orientation=$__0.orientation,otherProps=(function(source, exclusion) {var rest = {};var hasOwn = Object.prototype.hasOwnProperty;if (source == null) {throw new TypeError();}for (var key in source) {if (hasOwn.call(source, key) && !hasOwn.call(exclusion, key)) {rest[key] = source[key];}}return rest;})($__0,{containerProps:1,orientation:1});
 	        return (
 	            React.createElement(CenterVertical, React.__spread({},  otherProps, {contentSize: this.props.contentHeight, spacerSize: this.props.verticalSpacer}), 
-	                React.createElement(CenterHorizontal, {contentSize: this.props.contentWidth, spacerSize: this.props.horizontalSpacer, containerProps: containerProps}, 
+	                React.createElement(CenterHorizontal, {contentSize: this.props.contentWidth, 
+	                                  spacerSize: this.props.horizontalSpacer, 
+	                                  orientation: orientation, 
+	                                  containerProps: containerProps}, 
 	                    this.props.children
 	                )
 	            )
@@ -776,11 +802,11 @@
 	        };
 	    },
 	    render:function() {
-	        var $__0=   this.props,containerProps=$__0.containerProps,otherProps=(function(source, exclusion) {var rest = {};var hasOwn = Object.prototype.hasOwnProperty;if (source == null) {throw new TypeError();}for (var key in source) {if (hasOwn.call(source, key) && !hasOwn.call(exclusion, key)) {rest[key] = source[key];}}return rest;})($__0,{containerProps:1});
+	        var $__0=    this.props,containerProps=$__0.containerProps,orientation=$__0.orientation,otherProps=(function(source, exclusion) {var rest = {};var hasOwn = Object.prototype.hasOwnProperty;if (source == null) {throw new TypeError();}for (var key in source) {if (hasOwn.call(source, key) && !hasOwn.call(exclusion, key)) {rest[key] = source[key];}}return rest;})($__0,{containerProps:1,orientation:1});
 	        return (
 	            React.createElement(Layout, React.__spread({},  otherProps, {orientation: "horizontal"}), 
 	                React.createElement(Spacer, {size: this.props.spacerSize}), 
-	                React.createElement(Layout, React.__spread({},  containerProps, {size: this.props.contentSize}), 
+	                React.createElement(Layout, React.__spread({},  containerProps, {orientation: orientation, size: this.props.contentSize}), 
 	                    this.props.children
 	                ), 
 	                React.createElement(Spacer, {size: this.props.spacerSize})
@@ -809,11 +835,11 @@
 	        };
 	    },
 	    render:function() {
-	        var $__0=   this.props,containerProps=$__0.containerProps,otherProps=(function(source, exclusion) {var rest = {};var hasOwn = Object.prototype.hasOwnProperty;if (source == null) {throw new TypeError();}for (var key in source) {if (hasOwn.call(source, key) && !hasOwn.call(exclusion, key)) {rest[key] = source[key];}}return rest;})($__0,{containerProps:1});
+	        var $__0=    this.props,containerProps=$__0.containerProps,orientation=$__0.orientation,otherProps=(function(source, exclusion) {var rest = {};var hasOwn = Object.prototype.hasOwnProperty;if (source == null) {throw new TypeError();}for (var key in source) {if (hasOwn.call(source, key) && !hasOwn.call(exclusion, key)) {rest[key] = source[key];}}return rest;})($__0,{containerProps:1,orientation:1});
 	        return (
 	            React.createElement(Layout, React.__spread({},  otherProps, {orientation: "vertical"}), 
 	                React.createElement(Spacer, {size: this.props.spacerSize}), 
-	                React.createElement(Layout, React.__spread({},  containerProps, {size: this.props.contentSize}), 
+	                React.createElement(Layout, React.__spread({},  containerProps, {orientation: orientation, size: this.props.contentSize}), 
 	                    this.props.children
 	                ), 
 	                React.createElement(Spacer, {size: this.props.spacerSize})
@@ -21506,6 +21532,66 @@
 	module.exports = toArray;
 	
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(30)))
+
+/***/ },
+/* 179 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	var React = __webpack_require__(10),
+	    $__0=    __webpack_require__(4),Layout=$__0.Layout,Center=$__0.Center,Spacer=$__0.Spacer;
+
+	var AbsolutelyFreeTest = React.createClass({displayName: "AbsolutelyFreeTest",
+	    render:function() {
+	        return (
+	            React.createElement(Layout, React.__spread({},  this.props), 
+	                React.createElement(Layout, {style: {outline: "1px solid #000"}}, 
+	                     "Am I still selectable?"
+	                ), 
+	                React.createElement(Layout, {orientation: "horizontal", style: {outline: "1px solid #000"}}, 
+	                    React.createElement(Layout, {style: {outline: "1px solid #000"}}), 
+	                    React.createElement(Layout, {style: {outline: "1px solid #000"}}, 
+	                        "And what about me?"
+	                    ), 
+	                    React.createElement(Layout, {style: {outline: "1px solid #000"}}), 
+	                    /* absolute */
+	                    React.createElement(Center, {absolute: true, 
+	                            contentHeight: "weight 3", 
+	                            contentWidth: "weight 3", 
+	                            orientation: "horizontal", 
+	                            style: {outline: "1px solid red"}, 
+	                            containerProps: {style: {outline: "1px solid green"}}}, 
+	                        "absolute", 
+	                        React.createElement(Spacer, null), 
+	                        React.createElement(Layout, {size: "30px"}, 
+	                            React.createElement(Layout, {size: "30px", style: {outline: "1px solid yellow"}}), 
+	                            React.createElement(Spacer, null)
+	                        )
+	                    ), 
+	                    /* free */
+	                    React.createElement(Center, {free: true, 
+	                            contentHeight: "weight 5", 
+	                            contentWidth: "weight 5", 
+	                            orientation: "horizontal", 
+	                            style: {outline: "1px solid orange"}, 
+	                            containerProps: {style: {outline: "1px solid pink"}}}, 
+	                        "free", 
+	                        React.createElement(Spacer, null), 
+	                        React.createElement(Layout, {size: "30px"}, 
+	                            React.createElement(Layout, {size: "30px", style: {outline: "1px solid yellow"}}), 
+	                            React.createElement(Spacer, null)
+	                        )
+	                    )
+	                ), 
+	                React.createElement(Layout, {style: {outline: "1px solid #000"}})
+	            )
+	        );
+	    }
+	});
+
+	module.exports = AbsolutelyFreeTest;
+
 
 /***/ }
 /******/ ])

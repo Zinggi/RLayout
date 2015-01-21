@@ -1,6 +1,6 @@
 "use strict";
 
-window.__debugLayout = false;
+window.__debugLayout = !false;
 
 var React = require('react/addons'),
     {Layout, resizeMixin, Spacer} = require('../src/index'),
@@ -12,8 +12,9 @@ var RefCopyTest = require('./debugTests/RefCopyTest'),
     CenterSpacerSize = require('./debugTests/CenterSpacerSizeTest'),
     MatchChildTest = require('./debugTests/MatchChildTest'),
     PerformanceTest = require('./debugTests/PerformanceTest'),
-    PassPropsTest = require('./debugTests/passPropsToInnerContainer');
-
+    PassPropsTest = require('./debugTests/passPropsToInnerContainer'),
+    AbsolutelyFreeTest = require('./debugTests/AbsolutelyFreeTest');
+    
 var ShowcaseContainer = React.createClass({
     render() {
         return (
@@ -39,6 +40,7 @@ var Root = React.createClass({
                 <button onClick={() => this.props.switchView("PassPropsTest")}>PassPropsTest</button><br/>
                 <button onClick={() => this.props.switchView("PerformanceTest")}>PerformanceTest</button><br/>
                 <button onClick={() => this.props.switchView("MatchChildTest")}>MatchChildTest</button><br/>
+                <button onClick={() => this.props.switchView("AbsolutelyFreeTest")}>AbsolutelyFreeTest</button><br/>
             </Layout>;
         }
         return (
@@ -82,6 +84,7 @@ var App = React.createClass({
             PassPropsTest: <PassPropsTest />,
             PerformanceTest: <PerformanceTest />,
             MatchChildTest: <MatchChildTest />,
+            AbsolutelyFreeTest: <AbsolutelyFreeTest />,
         }[this.state.current];
 
         if (this.state.current === "root") {
