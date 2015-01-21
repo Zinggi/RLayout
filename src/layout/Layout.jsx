@@ -25,48 +25,6 @@ var parseNum = (string, regex) => {
     return (res) ? parseFloat(res[1]) : 0;
 };
 
-// measure the size of an element.
-var measureDomElement = (child, isVertical, parentSize) => {
-    // create a container
-    var container = document.createElement("div");
-    container.style.visibility = "hidden";
-    container.style.position = "absolute";
-    document.body.appendChild(container);
-
-    var testWidth = (isVertical) ? parentSize : undefined;
-    var testHeight = (isVertical) ? undefined : parentSize;
-    // render a div with the given dimension defined
-    var rendered = React.render(<Layout calculatedHeight={testHeight} calculatedWidth={testWidth}>{child}</Layout>, container);
-    var domNodeChild = rendered.getDOMNode();
-
-    // get the size of the rendered element
-    var measuredDimention = (isVertical) ? "offsetHeight" : "offsetWidth";
-    var size = domNodeChild[measuredDimention];
-
-    // remove it again
-    container.parentNode.removeChild(container);
-    return size;
-};
-
-// finds the size of an element.
-var getChildSize = (child, isVertical, parentSize) => {
-    if (React.isValidElement(child)) {
-        var size = child.props.size;
-        if (size !== undefined) {
-            // try to see if we have a defined size.
-            var sizePx = parseNum(size, pxRegex);
-            if (sizePx !== 0) {
-                return sizePx;
-            }
-        }
-    }
-    if (child instanceof Array) {
-        console.error("couldn't determine child size! You can only have one child when using 'matchChild'!");
-    }
-    return 0;
-    // if it either isn't a react element or if we couldn't find the size, measure it.
-    // return measureDomElement(child, isVertical, parentSize);
-};
 
 var Layout = React.createClass({
     propTypes: {
@@ -110,8 +68,8 @@ var Layout = React.createClass({
                 return test[orientation];
             });
             var map = {};
-            for(var i = 0; i < childIndexes.length; i += 1) {
-                map[childIndexes[i]] = childSizes[i];
+            for(var j = 0; j < childIndexes.length; j += 1) {
+                map[childIndexes[j]] = childSizes[j];
             }
 
             this.setState({ childSizes: map });
@@ -148,10 +106,9 @@ var Layout = React.createClass({
                 return 0;
             }
             if (this.state && this.state.childSizes){
-                // return child.state.childSize;
                 return this.state.childSizes[i];
             }
-            return 0;/*getChildSize(child.props.children, isVertical, (isVertical) ? width : height);*/
+            return 0;
         };
 
         var oneOf = (fns, string) => {
