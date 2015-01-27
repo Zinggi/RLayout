@@ -59,13 +59,17 @@ var Layout = React.createClass({
         }).filter(i => i !== -1);
         if (childIndexes.length > 0) {
             var node = this.getDOMNode();
-            var orientation = (this.props.orientation === "vertical") ? "clientHeight" : "clientWidth";
+            var orientation = (this.props.orientation === "vertical") ? "offsetHeight" : "offsetWidth";
             var childSizes = childIndexes.map(i => {
                 var test = node.children[i];
-                if (test[orientation] === 0) {
-                    return test.children[0][orientation];
+                var size = test[orientation];
+                if (size === 0) {
+                    if (test.children.length > 0) {
+                        return test.children[0][orientation];
+                    }
+                    return 0;
                 }
-                return test[orientation];
+                return size;
             });
             var map = {};
             for(var j = 0; j < childIndexes.length; j += 1) {

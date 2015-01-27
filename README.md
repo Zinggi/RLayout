@@ -264,6 +264,10 @@ After that, Just run:
 `grunt dev`
 
 ---
+## Also try this
+[r-animation](https://github.com/Zinggi/RAnimation) - An animation library.
+
+---
 ## License
 
 [MIT](LICENSE)

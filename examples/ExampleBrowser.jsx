@@ -1,6 +1,6 @@
 "use strict";
 
-window.__debugLayout = !false;
+window.__debugLayout = false;
 
 var React = require('react/addons'),
     {Layout, resizeMixin, Spacer} = require('../src/index'),
