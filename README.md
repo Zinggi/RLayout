@@ -1,5 +1,10 @@
 # RLayout
 
+### Important
+The development of this library has **stopped**, reasons why can be found [here](http://github.com/Zinggi/RLayout/issues/1#issuecomment-126736232).
+____
+### Below you'll find the old readme:
+
 A react component for simple layout. Screw CSS!
 
 ## Motivation
